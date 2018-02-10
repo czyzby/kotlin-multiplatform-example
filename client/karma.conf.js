@@ -4,7 +4,7 @@ module.exports = function (config) {
             reporters: ['mocha'],
             files: [
                 'build/node_modules/*.js',
-                'build/classes/main/*.js',
+                'build/classes/kotlin/main/*.js',
                 'build/classes/kotlin/test/*.js'
             ],
             exclude: [],
