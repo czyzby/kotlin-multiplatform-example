@@ -11,8 +11,15 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'ChromeHeadless'
+                'ChromeHeadlessNoSandbox'
             ],
+            customLaunchers: {
+                ChromeHeadlessNoSandbox: {
+                    base: 'ChromeHeadless',
+                    flags: ['--no-sandbox']
+                }
+            },
+
             captureTimeout: 5000,
             singleRun: true,
             reportSlowerThan: 500,
