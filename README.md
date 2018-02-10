@@ -1,11 +1,15 @@
 # Kotlin multiplatform project example
 
-This repository contains a barebones Kotlin multiplatform Gradle project with 3 modules: common (compiled to both JVM
-bytecode and JS), client (compiled to JS) and server (complied to JVM). Feel free to use it for personal and commercial
-projects. It also comes with working tests setup on both target platforms.
+This repository contains a barebones Kotlin multiplatform Gradle project with 3 modules: `common` (compiled to both JVM
+bytecode and JS), `client` (compiled to JS) and `server` (complied to JVM). Assumes a simple architecture, where the
+`server` module is a backend JVM application, `client` is the usual frontend web application, and the `common` module
+allows to share data structures, validation logic, and so on. It also comes with a working tests setup on both target
+platforms.
 
-Note that this was created by a backend developer and was based on multiple projects/examples. It _might _contain some
-ridiculous frontend issues. If you notice any problems or wrong configuration, please create a GitHub issue.
+Feel free to use it for personal and commercial projects. 
+
+Note that I don't feel comfortable with frontend tools and the `client` module _might_ have some issues. If you notice
+any problems or invalid configurations, please create a GitHub issue.
 
 ## What to do after cloning
 
