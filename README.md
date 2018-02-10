@@ -29,3 +29,5 @@ sources with `runDceKotlinJs`. Press F12 and read the console to see if it works
 * `assemble`: builds a standalone runnable jar at `server/build/libs` and bundles JS sources to `client/build/dist`.
 * `client:bundle`: invokes Yarn task that packs and minifies JS sources and exports them to `client/build/dist`. Invoked
 by `assemble`.
+* `client:copyStaticResources`: copies files from `client/src/main/resources` to `client/build/dist`. Copied files will
+be served by the dev server (`client:run`). Automatically invoked by `bundle` and `client:run`.
