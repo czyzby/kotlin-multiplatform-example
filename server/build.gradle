@@ -1,0 +1,30 @@
+apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'application'
+
+mainClassName = 'com.github.czyzby.example.server.Main'
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    // Includes all dependencies in the jar, so it can be a standalone runnable jar application:
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+dependencies {
+    expectedBy project(':common')
+
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: kotlinVersion
+
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: kotlinVersion
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: kotlinVersion
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+}
+
+compileKotlin {
+    targetCompatibility = javaVersion
+    sourceCompatibility = javaVersion
+    kotlinOptions {
+        jvmTarget = javaVersion
+    }
+}

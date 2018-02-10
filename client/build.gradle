@@ -1,0 +1,70 @@
+apply plugin: 'kotlin-platform-js'
+apply plugin: 'kotlin-dce-js'
+apply plugin: 'com.moowork.node'
+
+dependencies {
+    expectedBy project(':common')
+
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-js', version: kotlinVersion
+
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-js', version: kotlinVersion
+}
+
+node {
+    download true
+}
+
+compileKotlin2Js {
+    kotlinOptions {
+        metaInfo = true
+        outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
+        sourceMap = true
+        sourceMapEmbedSources = 'always'
+        moduleKind = 'umd'
+        main = 'com.github.czyzby.example.client.Main'
+    }
+}
+
+compileTestKotlin2Js {
+    kotlinOptions.moduleKind = 'umd'
+}
+
+// Downloads JS dependencies:
+task yarnInstall(type: YarnTask) {
+    args = ['install']
+}
+
+// Creates minified, packed main.bundle.js at build/dist:
+task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
+    args = ["run", "bundle"]
+}
+
+// Starts dev server that serves built application; reloads after running runDceKotlinJs:
+task run(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
+    args = ["run", "start"]
+}
+
+// Extracts JS libs from included dependencies to node_modules in build directory:
+task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
+    from compileKotlin2Js.destinationDir
+
+    configurations.testCompile.each {
+        from zipTree(it.absolutePath).matching { include '*.js' }
+    }
+
+    into "${buildDir}/node_modules"
+}
+
+// Test runner:
+task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
+    args = ['test']
+}
+
+test.dependsOn runKarma
+assemble.dependsOn bundle
+
+afterEvaluate {
+    if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
+        tasks.unpackDependenciesTestKotlinJs.enabled = false
+    }
+}

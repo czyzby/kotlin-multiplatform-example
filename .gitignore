@@ -1,0 +1,29 @@
+## Java
+*.class
+*.war
+*.ear
+hs_err_pid*
+
+## Android Studio, IntelliJ, Android
+android/libs/armeabi/
+android/libs/armeabi-v7a/
+android/libs/x86/
+android/gen/
+.idea/
+*.ipr
+*.iws
+*.iml
+*.so
+out/
+
+## Gradle
+.gradle
+gradle-app.setting
+build/
+
+## Front
+yarn.lock
+node_modules/
+
+## OS-specific, others
+.DS_Store
