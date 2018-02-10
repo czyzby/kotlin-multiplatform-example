@@ -1,7 +1,9 @@
 apply plugin: 'kotlin-platform-common'
+apply plugin: 'kotlinx-serialization'
 
 dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: kotlinVersion
+    compileOnly group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-runtime', version: kotlinSerializationVersion
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-common', version: kotlinVersion
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-annotations-common', version: kotlinVersion
 }

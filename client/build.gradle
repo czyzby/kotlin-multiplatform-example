@@ -1,11 +1,13 @@
 apply plugin: 'kotlin-platform-js'
 apply plugin: 'kotlin-dce-js'
+apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.moowork.node'
 
 dependencies {
     expectedBy project(':common')
 
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-js', version: kotlinVersion
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-runtime-js', version: kotlinSerializationVersion
 
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-js', version: kotlinVersion
 }

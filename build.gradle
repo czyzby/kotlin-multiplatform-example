@@ -1,11 +1,13 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: kotlinVersion
+        classpath group: 'org.jetbrains.kotlinx', name: 'kotlinx-gradle-serialization-plugin', version: kotlinSerializationVersion
         classpath group: 'com.moowork.gradle', name: 'gradle-node-plugin', version: nodePluginVersion
     }
 }
@@ -16,6 +18,7 @@ subprojects {
 
     repositories {
         mavenLocal()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
         jcenter()
     }
 }
