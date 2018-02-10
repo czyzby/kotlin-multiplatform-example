@@ -1,3 +1,6 @@
+[![Kotlin](https://img.shields.io/badge/kotlin-1.2.21-orange.svg)](http://kotlinlang.org/)
+[![Build Status](https://travis-ci.org/czyzby/kotlin-multiplatform-example.svg?branch=master)](https://travis-ci.org/czyzby/kotlin-multiplatform-example)
+
 # Kotlin multiplatform project example
 
 This repository contains a barebones Kotlin multiplatform Gradle project with 3 modules: `common` (compiled to both JVM
@@ -35,3 +38,8 @@ sources with `runDceKotlinJs`. Press F12 and read the console to see if it works
 by `assemble`.
 * `client:copyStaticResources`: copies files from `client/src/main/resources` to `client/build/dist`. Copied files will
 be served by the dev server (`client:run`). Automatically invoked by `bundle` and `client:run`.
+
+## Extras
+
+See [kotlinx-serialization](https://github.com/czyzby/kotlin-multiplatform-example/commit/2be66023daf2736c1946f5c753221a45dd3ec1d4)
+branch for [kotlinx-serialization](https://github.com/Kotlin/kotlinx.serialization) integration example.
