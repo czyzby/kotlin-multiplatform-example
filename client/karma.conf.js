@@ -1,10 +1,8 @@
 module.exports = function (config) {
     config.set({
-            frameworks: ['qunit'],
+            frameworks: ['qunit', 'browserify'],
             reporters: ['mocha'],
             files: [
-                'build/node_modules/kotlin.js',
-                'build/node_modules/kotlin-test.js',
                 'build/node_modules/*.js',
                 'build/classes/main/*.js',
                 'build/classes/kotlin/test/*.js'
@@ -13,11 +11,15 @@ module.exports = function (config) {
             colors: true,
             autoWatch: false,
             browsers: [
-                'PhantomJS'
+                'ChromeHeadless'
             ],
             captureTimeout: 5000,
             singleRun: true,
             reportSlowerThan: 500,
+
+            preprocessors: {
+                '**/*.js': ['browserify']
+            }
         }
     )
 };

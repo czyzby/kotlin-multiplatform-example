@@ -17,7 +17,6 @@ node {
 compileKotlin2Js {
     kotlinOptions {
         metaInfo = true
-        outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
         sourceMap = true
         sourceMapEmbedSources = 'always'
         moduleKind = 'umd'
@@ -45,7 +44,7 @@ task run(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
 }
 
 // Extracts JS libs from included dependencies to node_modules in build directory:
-task populateNodeModules(type: Copy, dependsOn: compileTestKotlin2Js) {
+task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
     from compileKotlin2Js.destinationDir
 
     configurations.testCompile.each {
