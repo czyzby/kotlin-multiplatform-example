@@ -43,6 +43,12 @@ task run(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
     args = ["run", "start"]
 }
 
+// Copies files from src/main/resouces to build/dist. These resources will be served by dev server:
+task copyStaticResources(type: Copy) {
+    from sourceSets.main.resources
+    into "${buildDir}/dist"
+}
+
 // Extracts JS libs from included dependencies to node_modules in build directory:
 task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
     from compileKotlin2Js.destinationDir
@@ -61,6 +67,8 @@ task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
 
 test.dependsOn runKarma
 assemble.dependsOn bundle
+bundle.dependsOn copyStaticResources
+run.dependsOn copyStaticResources
 
 afterEvaluate {
     if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
