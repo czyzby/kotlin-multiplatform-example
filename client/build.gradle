@@ -36,6 +36,7 @@ task yarnInstall(type: YarnTask) {
 // Creates minified, packed main.bundle.js at build/dist:
 task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
     args = ["run", "bundle"]
+    assemble.dependsOn bundle
 }
 
 // Starts dev server that serves built application; reloads after running runDceKotlinJs:
@@ -47,6 +48,8 @@ task run(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
 task copyStaticResources(type: Copy) {
     from sourceSets.main.resources
     into "${buildDir}/dist"
+    bundle.dependsOn copyStaticResources
+    run.dependsOn copyStaticResources
 }
 
 // Extracts JS libs from included dependencies to node_modules in build directory:
@@ -63,15 +66,6 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 // Test runner:
 task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
     args = ['test']
+    test.dependsOn runKarma
 }
 
-test.dependsOn runKarma
-assemble.dependsOn bundle
-bundle.dependsOn copyStaticResources
-run.dependsOn copyStaticResources
-
-afterEvaluate {
-    if (tasks.findByName('unpackDependenciesTestKotlinJs')) {
-        tasks.unpackDependenciesTestKotlinJs.enabled = false
-    }
-}
