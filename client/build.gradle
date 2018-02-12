@@ -39,17 +39,11 @@ task bundle(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
     assemble.dependsOn bundle
 }
 
-// Starts dev server that serves built application; reloads after running runDceKotlinJs:
-task run(type: YarnTask, dependsOn: [runDceKotlinJs, yarnInstall]) {
-    args = ["run", "start"]
-}
-
 // Copies files from src/main/resouces to build/dist. These resources will be served by dev server:
 task copyStaticResources(type: Copy) {
     from sourceSets.main.resources
     into "${buildDir}/dist"
     bundle.dependsOn copyStaticResources
-    run.dependsOn copyStaticResources
 }
 
 // Extracts JS libs from included dependencies to node_modules in build directory:
@@ -63,9 +57,23 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
     into "${buildDir}/node_modules"
 }
 
+// Starts dev server that serves built application in dev mode; run watch for hot reload:
+task run(type: YarnTask, dependsOn: [copyStaticResources, populateNodeModules, yarnInstall]) {
+    args = ["run", "start"]
+}
+
 // Test runner:
 task runKarma(type: YarnTask, dependsOn: [populateNodeModules, yarnInstall]) {
     args = ['test']
     test.dependsOn runKarma
 }
 
+// Recompiles sources on file changes. Invoke 'gradle client:run' and 'gradle -t client:watch' for hot reload.
+task watch {
+    inputs.files 'src/main'
+    doLast {
+        compileKotlin2Js.execute()
+        populateNodeModules.execute()
+        copyStaticResources.execute()
+    }
+}

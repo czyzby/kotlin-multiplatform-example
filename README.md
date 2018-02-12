@@ -19,9 +19,8 @@ any problems or invalid configurations, please create a GitHub issue.
 * Change group and version in root [`build.gradle`](build.gradle).
 * Update Gradle wrapper version in [`gradle-wrapper.properties`](gradle/wrapper/gradle-wrapper.properties).
 * Update dependencies' versions in [`gradle.properties`](gradle.properties) and [`package.json`](client/package.json).
-* Rename packages (preferably with IntelliJ `Refactor > Rename`). Replace `com.github.czyzby` throughout the project.
+* Rename packages (preferably with IntelliJ `Refactor > Rename`), replace `com.github.czyzby` throughout the project.
 * Include your project dependencies in subprojects `build.gradle` files.
-* Choose a cool title in [`webpack.config.js`](client/webpack.config.js).
 * Write actual code. [Or not.](https://github.com/kelseyhightower/nocode)
 
 ## Useful Gradle tasks
@@ -30,16 +29,31 @@ any problems or invalid configurations, please create a GitHub issue.
 * `client:test`: runs client tests and common tests compiled with client `actual` implementations via Karma/Mocha/QUnit.
 * `test`, `check`: runs tests (or tests with all checks) in every subproject.
 * `server:run`: runs `main` function of the server project.
-* `client:run`: setups Yarn dev server at `localhost:8080` which automatically reloads when you recompile KotlinJS
-sources with `runDceKotlinJs`. Press F12 and read the console to see if it works.
-* `client:runDceKotlinJs`: performs dead code removal; depends on tasks that compile JS application.
+* `client:run`: runs Webpack in watch mode at `localhost:8080` which automatically reloads when you recompile KotlinJS
+sources or add copy new static resouces. (Press F12 and read the console to see if example code works.)
+* `client:watch -t`: recompiles client sources and copies resources on every `src/main` file modification. Make sure to
+use `-t` flag to run in continuous mode. Along with `client:run`, these two tasks provide hot reload after every file
+change.
 * `assemble`: builds a standalone runnable jar at `server/build/libs` and bundles JS sources to `client/build/dist`.
-* `client:bundle`: invokes Yarn task that packs and minifies JS sources and exports them to `client/build/dist`. Invoked
-by `assemble`.
+* `client:bundle`: invokes Webpack (with deployment configuration) to pack and minifies JS sources and exports them to
+`client/build/dist`. Invoked by `assemble`.
 * `client:copyStaticResources`: copies files from `client/src/main/resources` to `client/build/dist`. Copied files will
 be served by the dev server (`client:run`). Automatically invoked by `bundle` and `client:run`.
 
+### Typical workflow
+
+During development, run `./gradlew client:run` and `./gradlew -t client:watch` to deploy the client application locally
+on `localhost:8080` with hot reload on each file change. Use your server framework of choice to run the server
+application. If anything unexpected happens, run `./gradlew clean` and repeat.
+
+Caveat: `Ctrl+C` will not kill Webpack (`client:run`). [This is a known issue](https://github.com/srs/gradle-node-plugin/issues/143).
+You can avoid it by turning off Gradle deamons or installing Yarn locally and using `yarn run start` instead of the
+Gradle task.
+
+To deploy, run `./gradlew assemble`. `server/build/libs` will contain a standalone runnable jar, and `client/build/dist`
+will contain your resources, Webpack-generated HTML file and bundled JS files.
+
 ## Extras
 
-See [kotlinx-serialization](https://github.com/czyzby/kotlin-multiplatform-example/commit/2be66023daf2736c1946f5c753221a45dd3ec1d4)
+See [this commit in kotlinx-serialization branch](https://github.com/czyzby/kotlin-multiplatform-example/commit/2be66023daf2736c1946f5c753221a45dd3ec1d4)
 branch for [kotlinx-serialization](https://github.com/Kotlin/kotlinx.serialization) integration example.
