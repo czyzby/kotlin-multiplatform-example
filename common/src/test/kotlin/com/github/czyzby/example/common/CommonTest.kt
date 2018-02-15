@@ -1,7 +1,7 @@
 package com.github.czyzby.example.common
 
 import kotlin.test.Test
-import kotlin.test.asserter
+import kotlin.test.assertEquals
 
 class CommonTest {
     // Caveat: Kotlin/JS test runners will not accept methods with spaces, so you cannot use backtick syntax. All test
@@ -9,6 +9,6 @@ class CommonTest {
 
     @Test
     fun should_return_the_one_and_only_answer() {
-        asserter.assertEquals("Answer must be equal to 42.", 42, getAnswer())
+        assertEquals(42, getAnswer())
     }
 }

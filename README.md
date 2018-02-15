@@ -26,7 +26,7 @@ any problems or invalid configurations, please create a GitHub issue.
 ## Useful Gradle tasks
 
 * `server:test`: runs server tests and common tests compiled with server `actual` implementations via JUnit runner.
-* `client:test`: runs client tests and common tests compiled with client `actual` implementations via Karma/Mocha/QUnit.
+* `client:test`: runs client tests and common tests compiled with client `actual` implementations via Karma/Mocha.
 * `test`, `check`: runs tests (or tests with all checks) in every subproject.
 * `server:run`: runs `main` function of the server project.
 * `client:run`: runs Webpack in watch mode at `localhost:8080` which automatically reloads when you recompile KotlinJS
@@ -57,3 +57,6 @@ will contain your resources, Webpack-generated HTML file and bundled JS files.
 
 See [this commit in kotlinx-serialization branch](https://github.com/czyzby/kotlin-multiplatform-example/commit/2be66023daf2736c1946f5c753221a45dd3ec1d4)
 branch for [kotlinx-serialization](https://github.com/Kotlin/kotlinx.serialization) integration example.
+
+Client project contains examples of
+[asynchronous tests](client/src/test/kotlin/com/github/czyzby/example/client/AsyncTest.kt).
